@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../config/api";
 import { useAuth } from "../hooks/useAuth";
 import { initialAuthState } from "../context/AuthContext";
 
@@ -8,14 +8,7 @@ const Logout = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "http://localhost:8080/auth/logout",
-        {},
-        {
-          // withCredentials: true ensures the auth cookie is sent with the request
-          withCredentials: true,
-        }
-      );
+      await api.post("/auth/logout", {});
 
       // Clear client-side auth state before redirecting
       // This prevents stale state issues on subsequent logins
