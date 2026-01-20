@@ -23,11 +23,17 @@ const Text = styled.p`
   font-size: 18px;
 `;
 
-// Only accessible to users with the "User" role
+// Only accessible to users with the "PATIENT" role
 function UserDashboard() {
+  const navigate = useNavigate();
   const {
     authState: { user },
   } = useAuth();
+
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("upcoming");
 
   return (
     <UserContainer>
