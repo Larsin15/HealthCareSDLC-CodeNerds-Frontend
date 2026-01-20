@@ -47,62 +47,68 @@ function AdminDashboard() {
     specialization: "",
     department: "",
   });
-  
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
-    setFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setError(""); //Clear error on input change
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(""),
-    setSuccess("");
-  }
+    setError(""), setSuccess("");
 
-  //Basic validations for formData
-  if(
-    !formData.username ||
-    !formData.password ||
-    !formData.email ||
-    !formData.employeeNumber ||
-    !formData.firstName ||
-    !formData.lastName ||
-    !formData.department ||
-    !formData.specialization
-  ) {
-    setError("Please fill in the required fields");
-    setLoading(false);
-    return;
-  }
+    //Basic validations for formData
+    if (
+      !formData.username ||
+      !formData.password ||
+      !formData.email ||
+      !formData.employeeNumber ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.department ||
+      !formData.specialization
+    ) {
+      setError("Please fill in the required fields");
+      setLoading(false);
+      return;
+    }
 
-  try {
-    const response = await axios.post(
-      "http://localhost:8080/auth/register",
-      {
+    try {
+      const response = await axios.post("http://localhost:8080/auth/register", {
         ...formData,
         roles: ["EMPLOYEE"], //Always register as an employee
-      }
-    );
+      });
 
-    console.log("Employee registration successful:", response.data);
-    setSuccess(
-      'Employee account created successfully!'
-    );
-  }
+      console.log("Employee registration successful:", response.data);
+      setSuccess("Employee account created successfully!");
 
-
-
-
-
-
-
-
-
+      //Reset form
+      setFormData({
+        username: "",
+        password: "",
+        email: "",
+        firstName: "",
+        lastName: "",
+        employeeNumber: "",
+        specialization: "",
+        department: "",
+      });
+    } catch (error) {
+      console.error("Employee registration failed:", error.response || error);
+      setError(
+        error.response?.data?.message ||
+          error.response?.data ||
+          "Failed to create employee account. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AdminContainer>
