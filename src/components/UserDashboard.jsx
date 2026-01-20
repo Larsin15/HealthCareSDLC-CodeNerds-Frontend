@@ -35,6 +35,28 @@ function UserDashboard() {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("upcoming");
 
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/appointments/my-appointments",
+        { withCredentials: true }
+      );
+      setAppointments(response.data);
+    } catch (err) {
+      console.error("Failed to fetch appointments:", err);
+      setError("Failed to load your appointments. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <UserContainer>
       <LogoContainer src={Logo} alt="Health Care Logo" />
