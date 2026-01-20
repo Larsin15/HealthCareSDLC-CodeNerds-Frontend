@@ -111,6 +111,30 @@ function EmployeeDashboard() {
                     />
                 </FormGroup>
 
+                <FormGroup>
+                    <Label htmlFor="startTime">Start Time:</Label>
+                    <Input
+                        type="time"
+                        id="startTime"
+                        value={newSlot.startTime}
+                        onChange={(e) => setNewSlot({ ...newSlot, startTime: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label htmlFor="endTime">End Time:</Label>
+                    <Input
+                        type="time"
+                        id="endTime"
+                        value={newSlot.endTime}
+                        onChange={(e) => setNewSlot({ ...newSlot, endTime: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+                
+                <Button type="submit">Add Availability</Button>
+
             </Form>
             </Section>
         </EmployeeContainer>
