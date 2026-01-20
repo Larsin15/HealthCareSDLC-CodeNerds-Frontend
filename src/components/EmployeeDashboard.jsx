@@ -4,6 +4,8 @@ import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/healthcare_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
+import AppointmentList from "./AppointmentList";
+import AvailabilityForm from "./AvailabilityForm";
 
 // Styled components for employee dashboard layout
 const DashboardContainer = styled.div`
