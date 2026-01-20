@@ -237,122 +237,130 @@ function EmployeeDashboard() {
 
 
     return (
-        <EmployeeContainer>
-            <LogoContainer src= {Logo} alt="Health Care Logo" />
-            <Title>Employee Dashboard</Title>
-            <WelcomeText>Welcome, {user}!</WelcomeText>
+        <DashboardContainer>
+            <Header>
+                <LogoSection>
+                    <LogoContainer src={Logo} alt="Health Care Logo" />
+                    <WelcomeText>
+                        <h2>Welcome, {user}!</h2>
+                        <p>Employee Dashboard - Mange your schedule</p>
+                    </WelcomeText>
+                </LogoSection>
+            </Header>
+
+            {/* Stats overview */}
+            <StatsGrid>
+                <StatCard $bgStart="#e8f5e9" $bgEnd="#f1f8e9">
+                    <StatNumber $color="#2e7d32">{stats.availableSlots}</StatNumber>
+                    <StatLabel>Available Slots</StatLabel>
+                </StatCard>
+
+                <StatCard $bgStart="#fff3e0" $bgEnd="#fff8e1">
+                    <StatNumber $color="#ef6c00">{stats.bookedSlots}</StatNumber>
+                    <StatLabel>Booked Slots</StatLabel>
+                </StatCard>
+
+                <StatCard $bgStart="#e3f2fd" $bgEnd="#e8f4fd">
+                    <StatNumber $color="#1565c0">{stats.upcomingAppointments}</StatNumber>
+                    <StatLabel>Upcoming Appointments</StatLabel>
+                </StatCard>
+
+                <StatCard $bgStart="#f3e5f5" $bgEnd="#fce4ec">
+                    <StatNumber $color="#7b1fa2">{stats.totalSlots}</StatNumber>
+                    <StatLabel>Total Slots</StatLabel>
+                </StatCard>
+            </StatsGrid>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
+            
+            {/* Add availability forms */}
+            <AvailabilityForm onSlotCreated={fetchSlots} />
 
-            {/* Availability Slots Section */}
-            <Section>
-                <SectionTitle>Manage Availability</SectionTitle>
+            {/* My Availability slots */}
+            <Section style={{ marginTop: "25px" }}>
+                <SectionHeader>
+                    <SectionTitle>My Availability Slots</SectionTitle>
+                </SectionHeader>
 
-            {/* Add New Availability Form*/}
-            <Form onSubmit={handleAddAvailability}>
-                <FormGroup>
-                    <Label htmlFor="date">Date:</Label>
-                    <Input
-                        type="date"
-                        id="date"
-                        value={newSlot.date}
-                        onChange={(e) => setNewSlot({ ...newSlot, date: e.target.value})}
-                        required
-                    />
-                </FormGroup>
+            <TabContainer>
+                <Tab
+                    $active={slotTab === "available"}
+                    onClick={() => setSlotTab("available")}
+                >
+                    Available ({stats.availableSlots})
+                </Tab>
 
-                <FormGroup>
-                    <Label htmlFor="startTime">Start Time:</Label>
-                    <Input
-                        type="time"
-                        id="startTime"
-                        value={newSlot.startTime}
-                        onChange={(e) => setNewSlot({ ...newSlot, startTime: e.target.value})}
-                        required
-                    />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label htmlFor="endTime">End Time:</Label>
-                    <Input
-                        type="time"
-                        id="endTime"
-                        value={newSlot.endTime}
-                        onChange={(e) => setNewSlot({ ...newSlot, endTime: e.target.value})}
-                        required
-                    />
-                </FormGroup>
+                <Tab
+                    $active={slotTab === "booked"}
+                    onClick={() => setSlotTab("booked")}
+                >
+                    Booked ({stats.bookedSlots})
+                </Tab>
                 
-                <Button type="submit">Add Availability</Button>
+                <Tab $active={slotTab === "all"} onClick={() => setSlotTab("all")}>
+                    All ({stats.totalSlots})
+                </Tab>
+            </TabContainer>
 
-                {/* Existing Availability Slots */}
-                <SectionTitle>Existing Availability Slots</SectionTitle>
-                {slots.length === 0 ? (
-                    <EmptyMessage>No availability slots found.</EmptyMessage>
-                ) : (
-                    <Table>
-                        <thead>
-                            <tr>
-                                <Th>Date</Th>
-                                <Th>Start Time</Th>
-                                <Th>End Time</Th>
-                                <Th>Status</Th>
-                                <Th>Actions</Th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {slots.map((slot) => (
-                                <tr key={slot.id}>
-                                    <Td>{slot.date}</Td>
-                                    <Td>{slot.startTime}</Td>
-                                    <Td>{slot.endTime}</Td>
-                                    <Td>{slot.isBooked ? 'Booked' : 'Available'}</Td>
-                                    <Td>
-                                        {!slot.isBooked && (
-                                            <DeleteButton onClick={() => handleDeleteSlot(slot.id)}>
-                                                Delete
-                                            </DeleteButton>
-                                        )}
-                                    </Td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                )}
-            </Form>
+            {loadingSlots ? (
+                <LoadingContainer>Loading...</LoadingContainer>
+            ) : filteredSlots.length === 0 ? (
+                <EmptyState>No slots found in this category</EmptyState>
+            ) : (
+                <SlotsList>
+                    {filteredSlots.map((slot) => (
+                        <SlotCard key={slot.id} $status={slot.status}>
+                            <SlotInfo>
+                                <SlotDateTime>
+                                    {formatDate(slot.startTime)} | {formatTime(slot.startTime)}(" ")
+                                    - {formatTime(slot.endTime)}
+                                </SlotDateTime>
+                                <SlotStatus $status={slot.status}>(slot.status)</SlotStatus>
+                            </SlotInfo>
+                            {slot.status === "AVAILABLE" && (
+                                <DeleteButton
+                                    onClick={() => handleDeleteSlot(slot.id)}
+                                    disabled={deletingSlotId === slot.id}
+                                >
+                                    {deletingSlotId === slot.id ? "Deleting..." : "Delete"}
+                                </DeleteButton>
+                            )}
+                        </SlotCard>
+                    ))}
+                </SlotsList>
+            )}
             </Section>
 
-            {/* Appointments Section */}
+            {/* My Appointments */}
             <Section>
-                <SectionTitle>My Appointments</SectionTitle>
-                {appointments.length === 0 ? (
-                    <EmptyMessage>No appointments scheduled.</EmptyMessage>
-                ) : (
-                    <Table>
-                        <thead>
-                            <tr>
-                                <Th>Date</Th>
-                                <Th>Time</Th>
-                                <Th>Patient</Th>
-                                <Th>Status</Th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {appointments.map((appointment) => (
-                                <tr key={appointment.id}>
-                                    <Td>{appointment.date}</Td>
-                                    <Td>{appointment.time}</Td>
-                                    <Td>{appointment.patientName}</Td>
-                                    <Td>{appointment.status}</Td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                )}
-            </Section>
+                <SectionHeader>
+                    <SectionTitle>My Appointments</SectionTitle>
+                </SectionHeader>
 
-            <Logout />
-        </EmployeeContainer>
+                <TabContainer>
+                    <Tab
+                        $active={appointmentTab === "upcoming"}
+                        onClick={() => setAppointmentTab("upcoming")}
+                    >
+                        Upcoming ({stats.upcomingAppointments})
+                    </Tab>
+
+                    <Tab
+                        $active={appointmentTab === "past"}
+                        onClick={() => setAppointmentTab("past")}
+                    >
+                        Past ({stats.pastAppointments})
+                    </Tab>
+
+                    <Tab
+                        $active={appointmentTab === "cancelled"}
+                        onClick={() => setAppointmentTab("cancelled")}
+                    >
+                        Cancelled ({stats.cancelledAppointments})
+                    </Tab>
+                </TabContainer>
+            </Section>
+        </DashboardContainer>
     );
 }
 
