@@ -90,12 +90,80 @@ function UserDashboard() {
   const filteredAppointments = getFilteredAppointments();
 
   return (
-    <UserContainer>
-      <LogoContainer src={Logo} alt="Health Care Logo" />
-      <Title>User Dashboard</Title>
-      <Text>Welcome, {user}!</Text>
-      <Logout />
-    </UserContainer>
+    <DashboardContainer>
+      <Header>
+        <LogoSection>
+          <LogoContainer src={Logo} alt="Health Care Logo" />
+          <WelcomeText>
+            <h2>Welcome, {user}!</h2>
+            <p>Manage your healthcare appointments</p>
+          </WelcomeText>
+        </LogoSection>
+        <Logout />
+      </Header>
+
+      {/* Quick Actions Section */}
+      <Section>
+        <SectionTitle style={{ marginBottom: "20px" }}>Quick Actions</SectionTitle>
+        <QuickActions>
+          <ActionCard onClick={handleBookAppointment}>
+            <ActionIcon>📅</ActionIcon>
+            <ActionText>Book New Appointment</ActionText>
+          </ActionCard>
+          <ActionCard onClick={() => setActiveTab("upcoming")}>
+            <ActionIcon>⏰</ActionIcon>
+            <ActionText>View Upcoming</ActionText>
+          </ActionCard>
+          <ActionCard onClick={() => setActiveTab("past")}>
+            <ActionIcon>📋</ActionIcon>
+            <ActionText>View History</ActionText>
+          </ActionCard>
+        </QuickActions>
+      </Section>
+
+      {/* Appointments Section */}
+      <Section>
+        <SectionHeader>
+          <SectionTitle>My Appointments</SectionTitle>
+          <BookButton onClick={handleBookAppointment}>
+            + Book Appointment
+          </BookButton>
+        </SectionHeader>
+
+        <TabContainer>
+          <Tab
+            $active={activeTab === "upcoming"}
+            onClick={() => setActiveTab("upcoming")}
+          >
+            Upcoming
+          </Tab>
+          <Tab
+            $active={activeTab === "past"}
+            onClick={() => setActiveTab("past")}
+          >
+            Past
+          </Tab>
+          <Tab
+            $active={activeTab === "cancelled"}
+            onClick={() => setActiveTab("cancelled")}
+          >
+            Cancelled
+          </Tab>
+        </TabContainer>
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+
+        {loading ? (
+          <LoadingContainer>Loading your appointments...</LoadingContainer>
+        ) : (
+          <AppointmentList
+            appointments={filteredAppointments}
+            onCancelSuccess={handleCancelSuccess}
+            showPatientName={false}
+          />
+        )}
+      </Section>
+    </DashboardContainer>
   );
 }
 
