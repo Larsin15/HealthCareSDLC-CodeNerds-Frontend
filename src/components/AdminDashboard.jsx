@@ -2,6 +2,8 @@ import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
+import axios from "axios";
+import { useAuth } from "../hooks/useAuth";
 
 // Styled components for admin dashboard layout
 const AdminContainer = styled.div`
@@ -23,7 +25,12 @@ const Text = styled.p`
   font-size: 18px;
 `;
 
-// Only accessible to users with the "Admin" role
+/**
+ * AdminDashboard - Admin only dashboard for employee registration
+ * only accessible to users with ADMIN role.
+ * Allows admins to create a new employee account only for MVP
+ */
+
 function AdminDashboard() {
   const {
     authState: { user },
