@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from "react-router-dom";
+
 function BookingConfirmation() {
   const location = useLocation();
   const navigate = useNavigate();
