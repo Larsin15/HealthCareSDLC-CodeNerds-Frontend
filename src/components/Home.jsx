@@ -16,7 +16,7 @@ const Title = styled.h1`
 
 // Styled Link component that looks like a button
 // Using Link instead of div improves accessibility and semantic HTML
-const LoginButton = styled(Link)`
+const PrimaryButton = styled(Link)`
   cursor: pointer;
   padding: 10px 30px;
   background-color: #057d7a;
@@ -36,6 +36,27 @@ const LoginButton = styled(Link)`
   }
 `;
 
+const SecondaryButton = styled(Link)`
+  cursor: pointer;
+  padding: 8px 24px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #057d7a;
+  margin-top: 1rem;
+  text-decoration: none;
+  border: 2px solid #057d7a;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    background-color: #e0f4f3;
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  }
+`;
+
 const LogoContainer = styled.img`
   height: 20rem;
 `;
@@ -44,7 +65,8 @@ const Home = () => (
   <HomeContainer>
     <LogoContainer src={Logo} alt="Health Care Logo" />
     <Title>Health Care Appointment App</Title>
-    <LoginButton to="/login">Login</LoginButton>
+    <PrimaryButton to="/login">Login</PrimaryButton>
+    <SecondaryButton to="/register">Register</SecondaryButton>
   </HomeContainer>
 );
 
