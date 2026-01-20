@@ -42,3 +42,45 @@ export const slotToCalendarEvent = (slot) => ({
   end: new Date(slot.endTime),
   resource: slot, // Keep full slot data for access
 });
+
+export const getEventStyle = (event, isSelected = false) => {
+  const { status } = event.resource || {};
+  
+  let backgroundColor = '#2fadaa';
+  let borderColor = '#057d7a';
+  
+  if (status === 'AVAILABLE') {
+    backgroundColor = '#10b981';
+    borderColor = '#059669';
+  } else if (status === 'BOOKED') {
+    backgroundColor = '#f59e0b';
+    borderColor = '#d97706';
+  } else if (status === 'CANCELLED') {
+    backgroundColor = '#ef4444';
+    borderColor = '#dc2626';
+  }
+  
+  if (isSelected) {
+    backgroundColor = '#057d7a';
+    borderColor = '#045c59';
+  }
+  
+  return {
+    style: {
+      backgroundColor,
+      borderLeft: `4px solid ${borderColor}`,
+      borderRadius: '8px',
+      opacity: 1,
+      color: 'white',
+      border: isSelected ? '2px solid #045c59' : 'none',
+      display: 'block',
+    },
+  };
+};
+
+export default {
+  localizer,
+  calendarDefaults,
+  slotToCalendarEvent,
+  getEventStyle,
+};
