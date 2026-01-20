@@ -85,6 +85,19 @@ function AvailabilityCalendar() {
     return true;
   });
 
+  // Format date/time for display in selected slot info
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('sv-SE', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   if (loading) {
     return (
       <CalendarContainer>
