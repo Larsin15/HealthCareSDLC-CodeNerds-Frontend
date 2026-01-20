@@ -18,7 +18,7 @@ const Header = styled.div`
   justify-content: space-between;
   margin-bottom: 30px;
   flex-wrap: wrap;
-  gap: 20px;;
+  gap: 20px;
 `;
 
 const LogoSection = styled.div`
@@ -27,7 +27,9 @@ const LogoSection = styled.div`
   gap: 15px;
 `;
 
-  
+const LogoContainer = styled.img`
+  height: 60px;
+`;
 
 /**
  * AdminDashboard - Admin only dashboard for employee registration
