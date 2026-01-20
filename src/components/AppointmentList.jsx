@@ -37,6 +37,36 @@ function AppointmentList({
     setSelectedAppointment(null);
     setError(null);
   };
+
+  const handleConfirmCancel = async () => {
+    if (!selectedAppointment) return;
+
+    setCancellingId(selectedAppointment.id);
+    setError(null);
+
+    try {
+      await axios.delete(
+        `http://localhost:8080/api/appointments/${selectedAppointment.id}`,
+        { withCredentials: true }
+      );
+
+      handleCloseModal();
+
+      // Call success callback to refresh the list
+      if (onCancelSuccess) {
+        onCancelSuccess();
+      }
+    } catch (err) {
+      console.error("Cancel failed:", err);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Failed to cancel appointment. Please try again.";
+      setError(errorMessage);
+    } finally {
+      setCancellingId(null);
+    }
+  };
 }
 
 export default AppointmentList;
