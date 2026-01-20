@@ -88,7 +88,32 @@ const StyledInput = styled.input`
     outline: none;
     border-color: #057d7a;
   }
-`
+`;
+
+const SubmitButton = styled.button`
+  cursor: pointer;
+  padding: 14px 30px;
+  background-color: #057d7a;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #2fadaa;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
 
 /**
  * AdminDashboard - Admin only dashboard for employee registration
