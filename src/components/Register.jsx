@@ -94,9 +94,13 @@ const GlobalError = styled.p`
 
 function Register() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    username: "",
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dateOfBirth: "",
   });
 
   const [fieldErrors, setFieldErrors] = useState({});
@@ -122,8 +126,16 @@ function Register() {
   const validate = () => {
     const errors = {};
 
-    if (!formData.fullName.trim()) {
-      errors.fullName = "Full name is required";
+    if (!formData.username.trim()) {
+      errors.username = "Username is required";
+    }
+
+    if (!formData.firstName.trim()) {
+      errors.firstName = "First name is required";
+    }
+
+    if (!formData.lastName.trim()) {
+      errors.lastName = "Last name is required";
     }
 
     if (!formData.email.trim()) {
@@ -134,8 +146,21 @@ function Register() {
 
     if (!formData.password) {
       errors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
+    } else if (
+      !/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&()\-=+{};:,<.>]).{8,}$/.test(
+        formData.password
+      )
+    ) {
+      errors.password =
+        "Password must be at least 8 characters and include an uppercase letter, a number and a special character";
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      errors.phoneNumber = "Phone number is required";
+    }
+
+    if (!formData.dateOfBirth) {
+      errors.dateOfBirth = "Date of birth is required";
     }
 
     setFieldErrors(errors);
@@ -157,16 +182,25 @@ function Register() {
 
     try {
       await registerCustomer({
-        fullName: formData.fullName.trim(),
-        email: formData.email.trim(),
+        username: formData.username.trim(),
         password: formData.password,
+        email: formData.email.trim(),
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
+        // HTML date input already returns yyyy-MM-dd which maps well to LocalDate
+        dateOfBirth: formData.dateOfBirth,
       });
 
       setSuccessMessage("Registration successful! You can now log in.");
       setFormData({
-        fullName: "",
+        username: "",
         email: "",
         password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        dateOfBirth: "",
       });
       setFieldErrors({});
     } catch (error) {
@@ -215,17 +249,43 @@ function Register() {
         {successMessage && <SuccessText>{successMessage}</SuccessText>}
 
         <Form onSubmit={handleSubmit} noValidate>
-          <Label htmlFor="fullName">Full name</Label>
+          <Label htmlFor="username">Username</Label>
           <Input
-            id="fullName"
-            name="fullName"
+            id="username"
+            name="username"
             type="text"
-            value={formData.fullName}
+            value={formData.username}
             onChange={handleChange}
             required
           />
-          {fieldErrors.fullName && (
-            <ErrorText>{fieldErrors.fullName}</ErrorText>
+          {fieldErrors.username && (
+            <ErrorText>{fieldErrors.username}</ErrorText>
+          )}
+
+          <Label htmlFor="firstName">First name</Label>
+          <Input
+            id="firstName"
+            name="firstName"
+            type="text"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.firstName && (
+            <ErrorText>{fieldErrors.firstName}</ErrorText>
+          )}
+
+          <Label htmlFor="lastName">Last name</Label>
+          <Input
+            id="lastName"
+            name="lastName"
+            type="text"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.lastName && (
+            <ErrorText>{fieldErrors.lastName}</ErrorText>
           )}
 
           <Label htmlFor="email">Email</Label>
@@ -250,6 +310,32 @@ function Register() {
           />
           {fieldErrors.password && (
             <ErrorText>{fieldErrors.password}</ErrorText>
+          )}
+
+          <Label htmlFor="phoneNumber">Phone number</Label>
+          <Input
+            id="phoneNumber"
+            name="phoneNumber"
+            type="tel"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.phoneNumber && (
+            <ErrorText>{fieldErrors.phoneNumber}</ErrorText>
+          )}
+
+          <Label htmlFor="dateOfBirth">Date of birth</Label>
+          <Input
+            id="dateOfBirth"
+            name="dateOfBirth"
+            type="date"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.dateOfBirth && (
+            <ErrorText>{fieldErrors.dateOfBirth}</ErrorText>
           )}
 
           <SubmitButton type="submit" disabled={isSubmitting}>
