@@ -64,6 +64,22 @@ function AdminDashboard() {
     setSuccess("");
   }
 
+  //Basic validations for formData
+  if(
+    !formData.username ||
+    !formData.password ||
+    !formData.email ||
+    !formData.employeeNumber ||
+    !formData.firstName ||
+    !formData.lastName ||
+    !formData.department ||
+    !formData.specialization
+  ) {
+    setError("Please fill in the required fields");
+    setLoading(false);
+    return;
+  }
+
 
 
 
