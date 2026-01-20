@@ -19,7 +19,15 @@ const Header = styled.div`
   margin-bottom: 30px;
   flex-wrap: wrap;
   gap: 20px;;
-  `;
+`;
+
+const LogoSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`;
+
+  
 
 /**
  * AdminDashboard - Admin only dashboard for employee registration
