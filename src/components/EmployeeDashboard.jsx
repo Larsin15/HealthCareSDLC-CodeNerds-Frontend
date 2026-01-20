@@ -86,5 +86,33 @@ function EmployeeDashboard() {
     }
 
 
-    
+    return (
+        <EmployeeContainer>'
+            <LogoContainer src= {Logo} alt="Health Care Logo" />
+            <Title>Employee Dashboard</Title>
+            <WelcomeText>Welcome, {user.name}!</WelcomeText>
+
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            {/* Availability Slots Section */}
+            <Section>
+                <SectionTitle>Manage Availability</SectionTitle>
+
+            {/* Add New Availability Form*/}
+            <Form onSubmit={handleAddAvailability}>
+                <FormGroup>
+                    <Label htmlFor="date">Date:</Label>
+                    <Input
+                        type="date"
+                        id="date"
+                        value={newSlot.date}
+                        onChange={(e) => setNewSlot({ ...newSlot, date: e.target.value})}
+                        required
+                    />
+                </FormGroup>
+
+            </Form>
+            </Section>
+        </EmployeeContainer>
+    )
 }
