@@ -53,6 +53,23 @@ const Section = styled.section`
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 `;
 
+const FormWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+const FormRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
 /**
  * AdminDashboard - Admin only dashboard for employee registration
  * only accessible to users with ADMIN role.
