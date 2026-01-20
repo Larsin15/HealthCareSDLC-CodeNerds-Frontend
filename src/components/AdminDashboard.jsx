@@ -80,6 +80,21 @@ function AdminDashboard() {
     return;
   }
 
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/auth/register",
+      {
+        ...formData,
+        roles: ["EMPLOYEE"], //Always register as an employee
+      }
+    );
+
+    console.log("Employee registration successful:", response.data);
+    setSuccess(
+      'Employee account created successfully!'
+    );
+  }
+
 
 
 
