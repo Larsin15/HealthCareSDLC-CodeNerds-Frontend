@@ -11,6 +11,9 @@ import AdminDashboard from "./components/AdminDashboard";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
+import AvailabilityCalendar from "./components/AvailabilityCalendar";
+import BookingForm from "./components/BookingForm";
+import BookingConfirmation from "./components/BookingConfirmation";
 import GlobalStyle from "./styles/GlobalStyle";
 
 // AuthProvider must wrap Router to ensure auth state is available to all routes
@@ -26,19 +29,45 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
 
-            {/* Protected routes - require authentication and specific roles */}
+            {/* Patient routes - require PATIENT role */}
             <Route
               path="/user/dashboard"
               element={
-                <RequireAuth allowedRoles={["USER"]}>
+                <RequireAuth allowedRoles={["PATIENT", "EMPLOYEE"]}>
                   <UserDashboard />
                 </RequireAuth>
               }
             />
             <Route
+              path="/available-appointments"
+              element={
+                <RequireAuth allowedRoles={["PATIENT", "USER"]}>
+                  <AvailabilityCalendar />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/book-appointment"
+              element={
+                <RequireAuth allowedRoles={["PATIENT", "USER"]}>
+                  <BookingForm />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/booking-confirmation"
+              element={
+                <RequireAuth allowedRoles={["PATIENT", "USER"]}>
+                  <BookingConfirmation />
+                </RequireAuth>
+              }
+            />
+
+            {/* Employee/Admin routes - require EMPLOYEE or ADMIN role */}
+            <Route
               path="/admin/dashboard"
               element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+                <RequireAuth allowedRoles={["ADMIN", "EMPLOYEE"]}>
                   <AdminDashboard />
                 </RequireAuth>
               }

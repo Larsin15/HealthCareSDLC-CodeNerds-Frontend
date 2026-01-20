@@ -38,6 +38,37 @@ function AvailabilityCalendar() {
     return specs.filter(Boolean).sort();
   };
 
+  // Transform filtered slots to calendar events
+  const events = filteredSlots.map(slot => ({
+    ...slotToCalendarEvent(slot),
+    title: `${slot.employeeName} - ${slot.employeeSpecialization}`,
+  }));
+
+  // Handle slot selection
+  const handleSelectEvent = (event) => {
+    const slot = event.resource;
+    setSelectedSlot(selectedSlot?.id === slot.id ? null : slot);
+  };
+
+  // Handle booking navigation
+  const handleBooking = () => {
+    if (selectedSlot) {
+      navigate("/book-appointment", { state: { slot: selectedSlot } });
+    }
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Custom event style getter
+  const eventStyleGetter = (event) => {
+    const isSelected = selectedSlot?.id === event.resource.id;
+    return getEventStyle(event, isSelected);
+  };
+
   // Filter slots based on current filters
   const filteredSlots = slots.filter((slot) => {
     // Date filter
