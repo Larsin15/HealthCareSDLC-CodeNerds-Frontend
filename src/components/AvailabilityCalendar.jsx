@@ -33,6 +33,27 @@ function AvailabilityCalendar() {
     }
   };
 
+  const getSpecializations = () => {
+    const specs = [...new Set(slots.map((slot) => slot.employeeSpecialization))];
+    return specs.filter(Boolean).sort();
+  };
+
+  // Filter slots based on current filters
+  const filteredSlots = slots.filter((slot) => {
+    // Date filter
+    if (filters.date) {
+      const slotDate = new Date(slot.startTime).toISOString().split("T")[0];
+      if (slotDate !== filters.date) return false;
+    }
+
+    // Specialization filter
+    if (filters.specialization) {
+      if (slot.employeeSpecialization !== filters.specialization) return false;
+    }
+
+    return true;
+  });
+
   if (loading) {
     return (
       <CalendarContainer>
