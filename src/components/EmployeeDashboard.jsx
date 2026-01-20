@@ -1,10 +1,9 @@
-import { useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import api from '../config/api';
-import Logout from './Logout';
-import Logo from '../assets/health_care_logo.svg';
-import styled from 'styled-components';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth } from "../hooks/useAuth";
+import Logo from "../assets/healthcare_logo.svg";
+import styled from "styled-components";
+import Logout from "./Logout";
 
 // Styled components for employee dashboard layout
 const EmployeeContainer = styled.div`
