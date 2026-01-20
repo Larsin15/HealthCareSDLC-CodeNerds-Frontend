@@ -7,24 +7,19 @@ import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
 // Styled components for admin dashboard layout
-const AdminContainer = styled.div`
+const DashboardContainer = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+`;
+const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const LogoContainer = styled.img`
-  height: 20rem;
-`;
-
-const Title = styled.h2`
-  font-size: 22px;
-`;
-
-const Text = styled.p`
-  font-size: 18px;
-`;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;;
+  `;
 
 /**
  * AdminDashboard - Admin only dashboard for employee registration
