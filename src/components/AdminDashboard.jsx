@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
+import { Form } from "react-router-dom";
 
 // Styled components for admin dashboard layout
 const DashboardContainer = styled.div`
@@ -246,6 +247,124 @@ function AdminDashboard() {
         </InfoBox>
         {success && <SuccessMessage>{success}</SuccessMessage>}
         {error && <ErrorMessage>{error}</ErrorMessage>}
+
+        <FormWrapper onSubmit={handleSubmit} aria-label="Create employee form">
+          <FormRow>
+            <FormGroup>
+              <StyledLabel htmlFor="username">Username *</StyledLabel>
+              <StyledInput
+                id="username"
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleInputChange}
+                required
+                autoComplete="username"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <StyledLabel htmlFor="password">Password *</StyledLabel>
+              <StyledInput
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                autoComplete="new-password"
+              />
+            </FormGroup>
+          </FormRow>
+
+          <FormRow>
+            <FormGroup>
+              <StyledLabel htmlFor="email"></StyledLabel>
+              <StyledInput
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                autoComplete="email"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <StyledLabel htmlFor="employeeNumber">
+                Employee Number *
+              </StyledLabel>
+              <StyledInput
+                id="employeeNumber"
+                name="employeeNumber"
+                type="text"
+                value={formData.employeeNumber}
+                onChange={handleInputChange}
+                placeholder="Ex. EMP01"
+                required
+              />
+            </FormGroup>
+          </FormRow>
+
+          <FormRow>
+            <FormGroup>
+              <StyledLabel htmlFor="firstName">First Name *</StyledLabel>
+              <StyledInput
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                autoComplete="given-name"
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <StyledLabel htmlFor="lastName"> Last Name *</StyledLabel>
+              <StyledInput
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                autoComplete="family-name"
+                required
+              />
+            </FormGroup>
+          </FormRow>
+
+          <FormRow>
+            <FormGroup>
+              <StyledLabel htmlFor="specialization">
+                Specialization *
+              </StyledLabel>
+              <StyledInput
+                id="specialization"
+                name="specialization"
+                type="text"
+                value={formData.specialization}
+                onChange={handleInputChange}
+                placeholder="e.g., Cardiology, Dentistry"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <StyledLabel htmlFor="department">Department *</StyledLabel>
+              <StyledInput
+                id="department"
+                name="department"
+                type="text"
+                value={formData.department}
+                onChange={handleInputChange}
+                placeholder="e.g., Cardiology Department"
+              />
+            </FormGroup>
+          </FormRow>
+
+          
+        </FormWrapper>
       </Section>
     </DashboardContainer>
   );
