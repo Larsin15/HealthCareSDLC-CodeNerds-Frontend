@@ -135,6 +135,40 @@ function EmployeeDashboard() {
                 
                 <Button type="submit">Add Availability</Button>
 
+                {/* Existing Availability Slots */}
+                <SectionTitle>Existing Availability Slots</SectionTitle>
+                {availabilitySlots.length === 0 ? (
+                    <EmptyMessage>No availability slots found.</EmptyMessage>
+                ) : (
+                    <Table>
+                        <thead>
+                            <tr>
+                                <Th>Date</Th>
+                                <Th>Start Time</Th>
+                                <Th>End Time</Th>
+                                <Th>Status</Th>
+                                <Th>Actions</Th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {availabilitySlots.map((slot) => (
+                                <tr key={slot.id}>
+                                    <Td>{slot.date}</Td>
+                                    <Td>{slot.startTime}</Td>
+                                    <Td>{slot.endTime}</Td>
+                                    <Td>{slot.isBooked ? 'Booked' : 'Available'}</Td>
+                                    <Td>
+                                        {!slot.isBooked && (
+                                            <DeleteButton onClick={() => handleDeleteSlot(slot.id)}>
+                                                Delete
+                                            </DeleteButton>
+                                        )}
+                                    </Td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
             </Form>
             </Section>
         </EmployeeContainer>
