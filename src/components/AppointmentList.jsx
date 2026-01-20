@@ -1,3 +1,229 @@
+import { useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+const AppointmentCard = styled.div`
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-left: 4px solid
+    ${(props) => {
+      switch (props.$status) {
+        case "BOOKED":
+          return "#057d7a";
+        case "CANCELLED":
+          return "#dc2626";
+        case "COMPLETED":
+          return "#6c757d";
+        default:
+          return "#ddd";
+      }
+    }};
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const AppointmentInfo = styled.div`
+  flex: 1;
+`;
+
+const DateTime = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+`;
+
+const ProviderInfo = styled.div`
+  font-size: 15px;
+  color: #34495e;
+  margin-bottom: 4px;
+`;
+
+const StatusBadge = styled.span`
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 8px;
+  background-color: ${(props) => {
+    switch (props.$status) {
+      case "BOOKED":
+        return "#e8f5e9";
+      case "CANCELLED":
+        return "#ffebee";
+      case "COMPLETED":
+        return "#f5f5f5";
+      default:
+        return "#f5f5f5";
+    }
+  }};
+  color: ${(props) => {
+    switch (props.$status) {
+      case "BOOKED":
+        return "#2e7d32";
+      case "CANCELLED":
+        return "#c62828";
+      case "COMPLETED":
+        return "#616161";
+      default:
+        return "#616161";
+    }
+  }};
+`;
+
+const ActionButtons = styled.div`
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+const CancelButton = styled.button`
+  padding: 10px 20px;
+  background-color: white;
+  color: #dc2626;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 12px;
+`;
+
+const EmptyIcon = styled.div`
+  font-size: 40px;
+  margin-bottom: 10px;
+`;
+
+const EmptyText = styled.p`
+  font-size: 16px;
+  margin: 0;
+`;
+
+const ConfirmModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+`;
+
+const ModalTitle = styled.h3`
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+`;
+
+const ModalText = styled.p`
+  font-size: 15px;
+  color: #666;
+  margin: 0 0 25px 0;
+  line-height: 1.5;
+`;
+
+const ModalButtons = styled.div`
+  display: flex;
+  gap: 15px;
+`;
+
+const ModalButton = styled.button`
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+
+  &.confirm {
+    background-color: #dc2626;
+    color: white;
+
+    &:hover {
+      background-color: #b91c1c;
+    }
+  }
+
+  &.cancel {
+    background-color: #f3f4f6;
+    color: #374151;
+
+    &:hover {
+      background-color: #e5e7eb;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+`;
+
 function AppointmentList({
   appointments = [],
   onCancelSuccess,
