@@ -6,6 +6,130 @@ import Logout from './Logout';
 import Logo from '../assets/health_care_logo.svg';
 import styled from 'styled-components';
 
+// Styled components for employee dashboard layout
+const EmployeeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const LogoContainer = styled.img`
+  height: 20rem;
+`;
+
+const Title = styled.h2`
+  font-size: 22px;
+  margin-bottom: 10px;
+`;
+
+const WelcomeText = styled.p`
+  font-size: 18px;
+  margin-bottom: 30px;
+`;
+
+const Section = styled.section`
+  width: 100%;
+  margin-bottom: 40px;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+`;
+
+const Form = styled.form`
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 15px;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const DeleteButton = styled(Button)`
+  background-color: #dc3545;
+
+  &:hover {
+    background-color: #c82333;
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const Th = styled.th`
+  padding: 12px;
+  text-align: left;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+`;
+
+const Td = styled.td`
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+`;
+
+const ErrorMessage = styled.div`
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+`;
+
+const LoadingMessage = styled.div`
+  text-align: center;
+  font-size: 18px;
+  padding: 40px;
+`;
+
+const EmptyMessage = styled.p`
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 20px;
+`;
+
 // Only accessible to users with the "EMPLOYEE" role
 function EmployeeDashboard() {
     const {
