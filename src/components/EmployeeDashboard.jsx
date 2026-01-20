@@ -134,14 +134,17 @@ function EmployeeDashboard() {
     const {
         authState: { user },
     } = useAuth();
-    const navigate = useNavigate();
 
     // State for availability slots and appointments
-    const [ availabilitySlots, setAvailabilitySlots] = useState([]);
-    const [ appointments, setAppointments ] = useState([]);
-    const [ loading, setLoading ] = useState(true);
-    const [ error, setError ] = useState(null);
-
+    const [appointments, setAppointments] = useState([]);
+    const [slots, setSlots] = useState([]);
+    const [loadingAppointments, setLoadingAppointments] = useState(true);
+    const [loadingSlots, setLoadingSlots] = useState(true);
+    const [error, setError] = useState(null);
+    const [appointmentTab, setAppointmentTab] = useState("upcoming");
+    const [slotTab, setSlotTab] = useState("available");
+    const [deletingSlotId, setDeletingSlotId] = useState(null);
+    
     // New slot form state
     const [ newSlot, setNewSlot ] = useState({
         date: "",
@@ -151,40 +154,62 @@ function EmployeeDashboard() {
 
     // Fetch employee data
     useEffect(() => {
-        fetchEmployeeData();
+        fetchAppointments();
+        fetchSlots();
     }, []);
 
-    const fetchEmployeeData = async () => {
+    const fetchAppointments = async () => {
+        setLoadingAppointments(true);
         try {
-            setLoading(true);
-
-            // Fetch availibility slots from backend
-            const slotsResponse = await api.get('/employee/availability-slots');
-            setAvailabilitySlots(slotsResponse.data);
-
-            // Fetch appointments from backend
-            const appointmentsResponse = await api.get('/employee/appointments');
-            setAppointments(appointmentsResponse.data);
-
-            setError(null);
+            const response = await axios.get(
+                "http://localhost:8080/api/appointments/employee-appointments",
+                { withCredentials: true }
+            );
+            setAppointments(response.data);
         } catch (err) {
-            setError('Failed to fetch employee data.');
+            console.error("Error fetching appointments:", err);
         } finally {
-            setLoading(false);
+            setLoadingAppointments(false);
         }
 };
+    const fetchSlots = async () => {
+        setLoadingSlots(true);
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/availability/my-slots",
+                { withCredentials: true }
+            );
+            setSlots(response.data);
+        } catch (err) {
+            console.error("Error fetching availability slots:", err);
+        } finally {
+            setLoadingSlots(false);
+        }
+    };
+
 
     const handleAddAvailability = async (e) => {
         e.preventDefault();
+        setError(null);
         try {
-            // Send new availibility slot to backend
-            await api.post('/employee/availability-slots', newSlot);
+            // Combine date and time into ISO datetime strings
+            const startDateTime = `${newSlot.date}T${newSlot.startTime}:00`;
+            const endDateTime = `${newSlot.date}T${newSlot.endTime}:00`;
 
+            await axios.post(
+                "http://localhost:8080/api/availability",
+                {
+                    startTime: startDateTime,
+                    endTime: endDateTime,
+                },
+                { withCredentials: true }
+            );
+                
             // Reset form
             setNewSlot({ date: "", startTime: "", endTime: "" });
 
-            // Refresh availibility slots
-            fetchEmployeeData();
+            // refresh slots
+            fetchSlots();
         } catch (err) {
             setError('Failed to add availability slot.');
             console.error(err);
@@ -192,21 +217,23 @@ function EmployeeDashboard() {
     };
 
     const handleDeleteSlot = async (slotId) => {
+        setDeletingSlotId(slotId);
+        setError(null);
         try {
-            // Delete availibility slot from backend
-            await api.delete(`/employee/availability-slots/${slotId}`);
+            await axios.delete(
+                `http://localhost:8080/api/availability/${slotId}`,
+                { withCredentials: true }
+            );
 
-            // Refresh data
-            fetchEmployeeData();
+            // Refresh slots
+            fetchSlots();
         } catch (err) {
-            setError('Failed to delete availability slot.');
-            console.error(err);
+            setError(err.response?.data?.message || "failed to delete slot.");
+            console.error("Error deleting slot:", err);
+        } finally {
+            setDeletingSlotId(null);
         }
     };
-
-    if (loading) {
-        return <LoadingMessage>Loading...</LoadingMessage>;
-    }
 
 
     return (
@@ -260,7 +287,7 @@ function EmployeeDashboard() {
 
                 {/* Existing Availability Slots */}
                 <SectionTitle>Existing Availability Slots</SectionTitle>
-                {availabilitySlots.length === 0 ? (
+                {slots.length === 0 ? (
                     <EmptyMessage>No availability slots found.</EmptyMessage>
                 ) : (
                     <Table>
@@ -274,7 +301,7 @@ function EmployeeDashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {availabilitySlots.map((slot) => (
+                            {slots.map((slot) => (
                                 <tr key={slot.id}>
                                     <Td>{slot.date}</Td>
                                     <Td>{slot.startTime}</Td>
