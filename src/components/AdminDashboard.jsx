@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Logout from "./Logout";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
 
 // Styled components for admin dashboard layout
 const AdminContainer = styled.div`
@@ -35,6 +36,26 @@ function AdminDashboard() {
   const {
     authState: { user },
   } = useAuth();
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    employeeNumber: "",
+    specialization: "",
+    department: "",
+  });
+
+
+
+
+
+
+
+
+
 
   return (
     <AdminContainer>
