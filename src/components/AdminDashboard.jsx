@@ -225,23 +225,29 @@ function AdminDashboard() {
   };
 
   return (
-<DashboardContainer>
-  <header>
-    <LogoSection>
-      <LogoContainer src={Logo} alt="Health Care Logo"/>
-      <WelcomeText>
-        <h2>Welcome, {user}!</h2>
-        <p>Admin Dashboard - Employee Management</p>
-      </WelcomeText>
-    </LogoSection>
-    <Logout/>
-  </header>
+    <DashboardContainer>
+      <header>
+        <LogoSection>
+          <LogoContainer src={Logo} alt="Health Care Logo" />
+          <WelcomeText>
+            <h2>Welcome, {user}!</h2>
+            <p>Admin Dashboard - Employee Management</p>
+          </WelcomeText>
+        </LogoSection>
+        <Logout />
+      </header>
 
-    
+      <Section>
+        <SectionTitle>Create New Employee Account</SectionTitle>
 
-
-</DashboardContainer>
-
+        <InfoBox>
+          Use this form to register new employees (doctors, nurses, etc.) who
+          will manage availability slots and appointments.
+        </InfoBox>
+        {success && <SuccessMessage>{success}</SuccessMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+      </Section>
+    </DashboardContainer>
   );
 }
 
