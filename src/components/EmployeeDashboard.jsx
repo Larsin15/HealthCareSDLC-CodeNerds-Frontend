@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import api from '../config/api';
 import Logout from './Logout';
 import Logo from '../assets/health_care_logo.svg';
