@@ -329,3 +329,5 @@ function EmployeeDashboard() {
         </EmployeeContainer>
     );
 }
+
+export default EmployeeDashboard;
