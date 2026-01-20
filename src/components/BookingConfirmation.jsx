@@ -22,9 +22,8 @@ function BookingConfirmation() {
       minute: "2-digit",
     });
   };
-}
 
-if (!appointment) {
+  if (!appointment) {
     return (
       <ConfirmationContainer>
         <NoDataMessage>
@@ -37,5 +36,67 @@ if (!appointment) {
       </ConfirmationContainer>
     );
   }
+
+  return (
+    <ConfirmationContainer>
+      <Card>
+        <SuccessIcon>✓</SuccessIcon>
+        <Title>Booking Confirmed!</Title>
+        <Subtitle>Your appointment has been successfully booked.</Subtitle>
+
+        <DetailsCard>
+          <DateTimeBox>
+            <DateText>{formatDate(appointment.slotStartTime)}</DateText>
+            <TimeText>
+              {formatTime(appointment.slotStartTime)} -{" "}
+              {formatTime(appointment.slotEndTime)}
+            </TimeText>
+          </DateTimeBox>
+
+          <DetailRow>
+            <DetailLabel>Healthcare Provider</DetailLabel>
+            <DetailValue>{appointment.employeeName}</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Specialization</DetailLabel>
+            <DetailValue>{appointment.employeeSpecialization}</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Status</DetailLabel>
+            <DetailValue style={{ color: "#057d7a" }}>
+              {appointment.status}
+            </DetailValue>
+          </DetailRow>
+          {appointment.notes && (
+            <DetailRow>
+              <DetailLabel>Your Notes</DetailLabel>
+              <DetailValue>{appointment.notes}</DetailValue>
+            </DetailRow>
+          )}
+        </DetailsCard>
+
+        <ButtonGroup>
+          <PrimaryButton onClick={() => navigate("/user/dashboard")}>
+            View My Appointments
+          </PrimaryButton>
+          <SecondaryButton onClick={() => navigate("/available-appointments")}>
+            Book Another Appointment
+          </SecondaryButton>
+        </ButtonGroup>
+
+        <InfoBox>
+          <InfoTitle>Important Information</InfoTitle>
+          <InfoText>
+            • You can cancel this appointment up to 24 hours before the scheduled time.
+            <br />
+            • Please arrive 10 minutes before your appointment.
+            <br />
+            • If you need to reschedule, please cancel and book a new appointment.
+          </InfoText>
+        </InfoBox>
+      </Card>
+    </ConfirmationContainer>
+  );
+}
 
 export default BookingConfirmation;
