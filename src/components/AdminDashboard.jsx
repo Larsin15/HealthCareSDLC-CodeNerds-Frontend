@@ -45,6 +45,14 @@ const WelcomeText = styled.div`
   }
 `;
 
+const Section = styled.section`
+  backround: white;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+`;
+
 /**
  * AdminDashboard - Admin only dashboard for employee registration
  * only accessible to users with ADMIN role.
