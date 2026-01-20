@@ -31,6 +31,20 @@ const LogoContainer = styled.img`
   height: 60px;
 `;
 
+const WelcomeText = styled.div`
+  h2 {
+    font:size: 24px;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 0;
+  }
+`;
+
 /**
  * AdminDashboard - Admin only dashboard for employee registration
  * only accessible to users with ADMIN role.
