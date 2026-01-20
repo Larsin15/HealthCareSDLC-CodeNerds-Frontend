@@ -59,4 +59,87 @@ function BookingForm() {
       setLoading(false);
     }
   };
-};
+
+  const handleCancel = () => {
+    navigate("/available-appointments");
+  };
+
+  if (!slot) {
+    return (
+      <FormContainer>
+        <NoSlotMessage>
+          <h2>No Appointment Selected</h2>
+          <p>Please select an appointment from the available slots.</p>
+          <ConfirmButton onClick={() => navigate("/available-appointments")}>
+            View Available Appointments
+          </ConfirmButton>
+        </NoSlotMessage>
+      </FormContainer>
+    );
+  }
+  
+  return (
+    <FormContainer>
+      {loading && (
+        <LoadingOverlay>
+          <LoadingText>Booking your appointment...</LoadingText>
+        </LoadingOverlay>
+      )}
+
+      <Header>
+        <Title>Confirm Booking</Title>
+        <BackButton onClick={handleCancel}>← Back</BackButton>
+      </Header>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+
+      <Card>
+        <DateTimeHighlight>
+          <HighlightDate>{formatDate(slot.startTime)}</HighlightDate>
+          <HighlightTime>
+            {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
+          </HighlightTime>
+        </DateTimeHighlight>
+
+        <SectionTitle>Appointment Details</SectionTitle>
+
+        <AppointmentDetails>
+          <DetailRow>
+            <DetailLabel>Healthcare Provider</DetailLabel>
+            <DetailValue>{slot.employeeName}</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Specialization</DetailLabel>
+            <DetailValue>{slot.employeeSpecialization}</DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabel>Duration</DetailLabel>
+            <DetailValue>30 minutes</DetailValue>
+          </DetailRow>
+        </AppointmentDetails>
+
+        <NotesSection>
+          <NotesLabel htmlFor="notes">
+            Notes for the healthcare provider (optional)
+          </NotesLabel>
+          <NotesInput
+            id="notes"
+            placeholder="Add any information you'd like to share before your appointment..."
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            maxLength={500}
+          />
+        </NotesSection>
+
+        <ButtonGroup>
+          <CancelButton onClick={handleCancel}>Cancel</CancelButton>
+          <ConfirmButton onClick={handleConfirmBooking} disabled={loading}>
+            {loading ? "Booking..." : "Confirm Booking"}
+          </ConfirmButton>
+        </ButtonGroup>
+      </Card>
+    </FormContainer>
+  );
+}
+
+export default BookingForm;
