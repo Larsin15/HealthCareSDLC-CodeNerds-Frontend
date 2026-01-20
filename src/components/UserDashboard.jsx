@@ -57,6 +57,28 @@ function UserDashboard() {
     }
   };
 
+  const getFilteredAppointments = () => {
+    const now = new Date();
+
+    switch (activeTab) {
+      case "upcoming":
+        return appointments.filter(
+          (apt) =>
+            apt.status === "BOOKED" && new Date(apt.slotStartTime) >= now
+        );
+      case "past":
+        return appointments.filter(
+          (apt) =>
+            apt.status === "COMPLETED" ||
+            (apt.status === "BOOKED" && new Date(apt.slotEndTime) < now)
+        );
+      case "cancelled":
+        return appointments.filter((apt) => apt.status === "CANCELLED");
+      default:
+        return appointments;
+    }
+  };
+
   return (
     <UserContainer>
       <LogoContainer src={Logo} alt="Health Care Logo" />
