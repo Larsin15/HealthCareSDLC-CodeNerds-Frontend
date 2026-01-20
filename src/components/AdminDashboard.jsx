@@ -3,7 +3,6 @@ import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
 import axios from "axios";
-import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 import { Form } from "react-router-dom";
 
@@ -52,6 +51,12 @@ const Section = styled.section`
   padding: 25px;
   margin-bottom: 25px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
 `;
 
 const FormWrapper = styled.form`
@@ -279,7 +284,7 @@ function AdminDashboard() {
 
           <FormRow>
             <FormGroup>
-              <StyledLabel htmlFor="email"></StyledLabel>
+              <StyledLabel htmlFor="email">Email *</StyledLabel>
               <StyledInput
                 id="email"
                 name="email"
@@ -363,7 +368,9 @@ function AdminDashboard() {
             </FormGroup>
           </FormRow>
 
-          
+          <SubmitButton type="submit" disabled={loading}>
+            {loading ? "Creating Employee..." : "Creat Employee Account"}
+          </SubmitButton>
         </FormWrapper>
       </Section>
     </DashboardContainer>
