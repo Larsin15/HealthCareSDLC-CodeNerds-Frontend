@@ -115,6 +115,31 @@ const SubmitButton = styled.button`
   }
 `;
 
+const SuccessMessage = styled.div`
+  background-color: #d1fae5;
+  color: #059669;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+`;
+
+const ErrorMessage = styled.div`¨
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+`;
+
+const InfoBox = styled.div`
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+`;
+
 /**
  * AdminDashboard - Admin only dashboard for employee registration
  * only accessible to users with ADMIN role.
