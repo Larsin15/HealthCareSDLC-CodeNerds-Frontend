@@ -6,127 +6,235 @@ import styled from "styled-components";
 import Logout from "./Logout";
 
 // Styled components for employee dashboard layout
-const EmployeeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  max-width: 1200px;
+const DashboardContainer = styled.div`
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 20px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
+
+const LogoSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
 `;
 
 const LogoContainer = styled.img`
-  height: 20rem;
+  height: 60px;
 `;
 
-const Title = styled.h2`
-  font-size: 22px;
-  margin-bottom: 10px;
-`;
+const WelcomeText = styled.div`
+  h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+  }
 
-const WelcomeText = styled.p`
-  font-size: 18px;
-  margin-bottom: 30px;
+  p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 0;
+  }
 `;
 
 const Section = styled.section`
-  width: 100%;
-  margin-bottom: 40px;
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+`;
+
+const SectionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 const SectionTitle = styled.h3`
   font-size: 20px;
-  margin-bottom: 15px;
-  color: #333;
+  color: #2c3e50;
+  margin: 0;
 `;
 
-const Form = styled.form`
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
+const TabContainer = styled.div`
+  display: flex;
+  gap: 10px;
   margin-bottom: 20px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
 `;
 
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-`;
-
-const Button = styled.button`
+const Tab = styled.button`
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background: ${(props) => (props.$active ? "#057d7a" : "transparent")};
+  color: ${(props) => (props.$active ? "white" : "#666")};
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background: ${(props) => (props.$active ? "#057d7a" : "#f0f0f0")};
   }
 `;
 
-const DeleteButton = styled(Button)`
-  background-color: #dc3545;
-
-  &:hover {
-    background-color: #c82333;
-  }
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
-const Th = styled.th`
-  padding: 12px;
-  text-align: left;
-  background-color: #f8f9fa;
-  border-bottom: 2px solid #dee2e6;
-  font-weight: 600;
-`;
-
-const Td = styled.td`
-  padding: 12px;
-  border-bottom: 1px solid #dee2e6;
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  color: #666;
 `;
 
 const ErrorMessage = styled.div`
-  color: #dc3545;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
 `;
 
-const LoadingMessage = styled.div`
-  text-align: center;
-  font-size: 18px;
-  padding: 40px;
+const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
 `;
 
-const EmptyMessage = styled.p`
-  text-align: center;
-  color: #6c757d;
-  font-style: italic;
+const StatCard = styled.div`
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.$bgStart || "#f8f9fa"} 0%,
+    ${(props) => props.$bgEnd || "#ffffff"} 100%
+  );
+  border-radius: 12px;
   padding: 20px;
+  text-align: center;
+`;
+
+const StatNumber = styled.div`
+  font-size: 36px;
+  font-weight: 700;
+  color: ${(props) => props.$color || "#2c3e50"};
+  margin-bottom: 5px;
+`;
+
+const StatLabel = styled.div`
+  font-size: 14px;
+  color: #7f8c8d;
+`;
+
+const SlotsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const SlotCard = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid
+    ${(props) => {
+      switch (props.$status) {
+        case "AVAILABLE":
+          return "#10b981";
+        case "BOOKED":
+          return "#f59e0b";
+        case "CANCELLED":
+          return "#ef4444";
+        default:
+          return "#6b7280";
+      }
+    }};
+`;
+
+const SlotInfo = styled.div`
+  flex: 1;
+`;
+
+const SlotDateTime = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+`;
+
+const SlotStatus = styled.span`
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: ${(props) => {
+    switch (props.$status) {
+      case "AVAILABLE":
+        return "#d1fae5";
+      case "BOOKED":
+        return "#fef3c7";
+      case "CANCELLED":
+        return "#fee2e2";
+      default:
+        return "#f3f4f6";
+    }
+  }};
+  color: ${(props) => {
+    switch (props.$status) {
+      case "AVAILABLE":
+        return "#059669";
+      case "BOOKED":
+        return "#d97706";
+      case "CANCELLED":
+        return "#dc2626";
+      default:
+        return "#6b7280";
+    }
+  }};
+`;
+
+const DeleteButton = styled.button`
+  padding: 8px 16px;
+  background-color: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 12px;
 `;
 
 // Only accessible to users with the "EMPLOYEE" role
@@ -359,6 +467,16 @@ function EmployeeDashboard() {
                         Cancelled ({stats.cancelledAppointments})
                     </Tab>
                 </TabContainer>
+
+                {loadingAppointments ? (
+                    <LoadingContainer>Loading...</LoadingContainer>
+                ) : (
+                    <AppointmentList
+                        appointments={filteredAppointments}
+                        onCancelSuccess={fetchAppointments}
+                        showPatientName={true}
+                    />
+                )}
             </Section>
         </DashboardContainer>
     );
