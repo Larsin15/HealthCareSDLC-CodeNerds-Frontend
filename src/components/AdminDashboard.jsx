@@ -225,12 +225,23 @@ function AdminDashboard() {
   };
 
   return (
-    <AdminContainer>
-      <LogoContainer src={Logo} alt="Health Care Logo" />
-      <Title>Admin Dashboard</Title>
-      <Text>Welcome, {user}!</Text>
-      <Logout />
-    </AdminContainer>
+<DashboardContainer>
+  <header>
+    <LogoSection>
+      <LogoContainer src={Logo} alt="Health Care Logo"/>
+      <WelcomeText>
+        <h2>Welcome, {user}!</h2>
+        <p>Admin Dashboard - Employee Management</p>
+      </WelcomeText>
+    </LogoSection>
+    <Logout/>
+  </header>
+
+    
+
+
+</DashboardContainer>
+
   );
 }
 
