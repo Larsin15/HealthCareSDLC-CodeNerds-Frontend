@@ -87,10 +87,10 @@ function EmployeeDashboard() {
 
 
     return (
-        <EmployeeContainer>'
+        <EmployeeContainer>
             <LogoContainer src= {Logo} alt="Health Care Logo" />
             <Title>Employee Dashboard</Title>
-            <WelcomeText>Welcome, {user.name}!</WelcomeText>
+            <WelcomeText>Welcome, {user}!</WelcomeText>
 
             {error && <ErrorMessage>{error}</ErrorMessage>}
 
@@ -171,6 +171,37 @@ function EmployeeDashboard() {
                 )}
             </Form>
             </Section>
+
+            {/* Appointments Section */}
+            <Section>
+                <SectionTitle>My Appointments</SectionTitle>
+                {appointments.length === 0 ? (
+                    <EmptyMessage>No appointments scheduled.</EmptyMessage>
+                ) : (
+                    <Table>
+                        <thead>
+                            <tr>
+                                <Th>Date</Th>
+                                <Th>Time</Th>
+                                <Th>Patient</Th>
+                                <Th>Status</Th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {appointments.map((appointment) => (
+                                <tr key={appointment.id}>
+                                    <Td>{appointment.date}</Td>
+                                    <Td>{appointment.time}</Td>
+                                    <Td>{appointment.patientName}</Td>
+                                    <Td>{appointment.status}</Td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
+            </Section>
+
+            <Logout />
         </EmployeeContainer>
-    )
+    );
 }
