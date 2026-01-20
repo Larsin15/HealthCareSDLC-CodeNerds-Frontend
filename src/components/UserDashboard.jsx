@@ -79,6 +79,16 @@ function UserDashboard() {
     }
   };
 
+  const handleCancelSuccess = () => {
+    fetchAppointments();
+  };
+
+  const handleBookAppointment = () => {
+    navigate("/available-appointments");
+  };
+
+  const filteredAppointments = getFilteredAppointments();
+
   return (
     <UserContainer>
       <LogoContainer src={Logo} alt="Health Care Logo" />
