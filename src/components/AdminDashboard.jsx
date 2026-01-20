@@ -70,6 +70,26 @@ const FormGroup = styled.div`
   gap: 8px;
 `;
 
+const StyledLabel = styled.label`
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 600;
+`;
+
+const StyledInput = styled.input`
+  font-size: 16px;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 12px;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #057d7a;
+  }
+`
+
 /**
  * AdminDashboard - Admin only dashboard for employee registration
  * only accessible to users with ADMIN role.
