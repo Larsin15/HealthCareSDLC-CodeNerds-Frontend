@@ -50,11 +50,18 @@ function AdminDashboard() {
   
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoadin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData((prev) => ({...prev, [e.target.name]: e.target.value}));
     setError(""); //Clear error on input change
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(""),
+    setSuccess("");
   }
 
 
