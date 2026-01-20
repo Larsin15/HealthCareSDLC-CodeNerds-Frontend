@@ -67,6 +67,90 @@ function AppointmentList({
       setCancellingId(null);
     }
   };
+
+  if (appointments.length === 0) {
+    return (
+      <EmptyState>
+        <EmptyIcon>📅</EmptyIcon>
+        <EmptyText>No appointments found.</EmptyText>
+      </EmptyState>
+    );
+  }
+
+  return (
+    <>
+      <ListContainer>
+        {appointments.map((appointment) => (
+          <AppointmentCard key={appointment.id} $status={appointment.status}>
+            <AppointmentInfo>
+              <DateTime>
+                {formatDate(appointment.slotStartTime)} at{" "}
+                {formatTime(appointment.slotStartTime)} -{" "}
+                {formatTime(appointment.slotEndTime)}
+              </DateTime>
+              {showPatientName ? (
+                <ProviderInfo>Patient: {appointment.patientName}</ProviderInfo>
+              ) : (
+                <ProviderInfo>
+                  {appointment.employeeName} - {appointment.employeeSpecialization}
+                </ProviderInfo>
+              )}
+              <StatusBadge $status={appointment.status}>
+                {appointment.status}
+              </StatusBadge>
+            </AppointmentInfo>
+
+            <ActionButtons>
+              {appointment.canCancel && appointment.status === "BOOKED" && (
+                <CancelButton
+                  onClick={() => handleCancelClick(appointment)}
+                  disabled={cancellingId === appointment.id}
+                >
+                  {cancellingId === appointment.id ? "Cancelling..." : "Cancel"}
+                </CancelButton>
+              )}
+            </ActionButtons>
+          </AppointmentCard>
+        ))}
+      </ListContainer>
+
+      {/* Cancel Confirmation Modal */}
+      {showConfirmModal && selectedAppointment && (
+        <ConfirmModal onClick={handleCloseModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalTitle>Cancel Appointment?</ModalTitle>
+            <ModalText>
+              Are you sure you want to cancel your appointment on{" "}
+              <strong>{formatDate(selectedAppointment.slotStartTime)}</strong> at{" "}
+              <strong>{formatTime(selectedAppointment.slotStartTime)}</strong>?
+              <br />
+              <br />
+              This action cannot be undone.
+            </ModalText>
+
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            <ModalButtons>
+              <ModalButton
+                className="cancel"
+                onClick={handleCloseModal}
+                disabled={cancellingId}
+              >
+                Keep Appointment
+              </ModalButton>
+              <ModalButton
+                className="confirm"
+                onClick={handleConfirmCancel}
+                disabled={cancellingId}
+              >
+                {cancellingId ? "Cancelling..." : "Yes, Cancel"}
+              </ModalButton>
+            </ModalButtons>
+          </ModalContent>
+        </ConfirmModal>
+      )}
+    </>
+  );
 }
 
 export default AppointmentList;
