@@ -8,7 +8,7 @@ import apiClient from "./client";
 //   password: string
 // }
 export const registerCustomer = async (customerData) => {
-  const response = await apiClient.post("/customers/register", customerData);
+  const response = await apiClient.post("/auth/register", customerData);
   return response.data;
 };
 
