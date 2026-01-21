@@ -4,9 +4,6 @@ import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
 import Logout from "./Logout";
-import axios from "axios";
-import { useState } from "react";
-import { Form } from "react-router-dom";
 
 // Styled components for admin dashboard layout
 const DashboardContainer = styled.div`

@@ -171,10 +171,33 @@ function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("upcoming");
+  const [userProfile, setUserProfile] = useState({
+    firstName: '',
+    lastName: '',
+  });
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     fetchAppointments();
   }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/auth/profile",
+        { withCredentials: true }
+      );
+      setUserProfile({
+        firstName: response.data.firstName || '',
+        lastName: response.data.lastName || '',
+      });
+    } catch (err) {
+      console.error("Failed to fetch user profile:", err);
+    }
+  };
 
   const fetchAppointments = async () => {
     setLoading(true);
@@ -226,13 +249,17 @@ function UserDashboard() {
 
   const filteredAppointments = getFilteredAppointments();
 
+  const displayName = userProfile.firstName && userProfile.lastName
+    ? `${userProfile.firstName} ${userProfile.lastName}`
+    : user;
+
   return (
     <DashboardContainer>
       <Header>
         <LogoSection>
           <LogoContainer src={Logo} alt="Health Care Logo" />
           <WelcomeText>
-            <h2>Welcome, {user}!</h2>
+            <h2>Welcome, {displayName}!</h2>
             <p>Manage your healthcare appointments</p>
           </WelcomeText>
         </LogoSection>
