@@ -16,6 +16,7 @@ import AvailabilityCalendar from "./components/AvailabilityCalendar";
 import BookingForm from "./components/BookingForm";
 import BookingConfirmation from "./components/BookingConfirmation";
 import GlobalStyle from "./styles/GlobalStyle";
+import Register from "./components/Register";
 
 // AuthProvider must wrap Router to ensure auth state is available to all routes
 function App() {
@@ -28,6 +29,7 @@ function App() {
             {/* Public routes - accessible without authentication */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
 
             {/* Patient routes - require PATIENT role */}
