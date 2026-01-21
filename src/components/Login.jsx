@@ -94,6 +94,8 @@ function Login() {
       // Redirect based on user role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+      } else if (roles.includes("EMPLOYEE")) {
+        navigate("/employee/dashboard", { replace: true });
       } else {
         navigate("/user/dashboard", { replace: true });
       }

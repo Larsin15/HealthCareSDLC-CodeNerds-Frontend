@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import EmployeeDashboard from "./components/EmployeeDashboard";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
@@ -69,6 +70,15 @@ function App() {
               element={
                 <RequireAuth allowedRoles={["ADMIN", "EMPLOYEE"]}>
                   <AdminDashboard />
+                </RequireAuth>
+              }
+            />
+
+            <Route
+              path="/employee/dashboard"
+              element={
+                <RequireAuth allowedRoles={["EMPLOYEE"]}>
+                  <EmployeeDashboard />
                 </RequireAuth>
               }
             />
