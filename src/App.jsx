@@ -34,7 +34,7 @@ function App() {
             <Route
               path="/user/dashboard"
               element={
-                <RequireAuth allowedRoles={["PATIENT", "EMPLOYEE"]}>
+                <RequireAuth allowedRoles={["PATIENT", "USER"]}>
                   <UserDashboard />
                 </RequireAuth>
               }
@@ -63,6 +63,14 @@ function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/employee/dashboard"
+              element={
+                <RequireAuth allowedRoles={["EMPLOYEE"]}>
+                  <EmployeeDashboard />
+                </RequireAuth>
+              }
+            />
 
             {/* Employee/Admin routes - require EMPLOYEE or ADMIN role */}
             <Route
@@ -73,16 +81,6 @@ function App() {
                 </RequireAuth>
               }
             />
-
-            <Route
-              path="/employee/dashboard"
-              element={
-                <RequireAuth allowedRoles={["EMPLOYEE"]}>
-                  <EmployeeDashboard />
-                </RequireAuth>
-              }
-            />
-
             {/* Fallback route - redirects unknown paths to home */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
