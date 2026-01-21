@@ -220,12 +220,34 @@ function EmployeeDashboard() {
   const [slotTab, setSlotTab] = useState("available");
   const [deletingSlotId, setDeletingSlotId] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [userProfile, setUserProfile] = useState({
+    firstName: '',
+    lastName: '',
+  });
 
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
   // Fetch data on component mount
   useEffect(() => {
     fetchAppointments();
     fetchSlots();
   }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/auth/profile",
+        { withCredentials: true }
+      );
+      setUserProfile({
+        firstName: response.data.firstName || '',
+        lastName: response.data.lastName || '',
+      });
+    } catch (err) {
+      console.error("Failed to fetch user profile:", err);
+    }
+  };
 
   const fetchAppointments = async () => {
     setLoadingAppointments(true);
@@ -358,13 +380,17 @@ function EmployeeDashboard() {
     });
   };
 
+  const displayName = userProfile.firstName && userProfile.lastName
+    ? `${userProfile.firstName} ${userProfile.lastName}`
+    : user;
+
   return (
     <DashboardContainer>
       <Header>
         <LogoSection>
           <LogoContainer src={Logo} alt="Health Care Logo" />
           <WelcomeText>
-            <h2>Welcome, {user}!</h2>
+            <h2>Welcome, {displayName}!</h2>
             <p>Employee Dashboard - Manage your schedule</p>
           </WelcomeText>
         </LogoSection>
