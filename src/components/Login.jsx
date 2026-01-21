@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import api from "../config/api";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // Styled components for login page layout
 const LoginContainer = styled.div`
@@ -61,6 +61,23 @@ const StyledInput = styled.input`
   }
 `;
 
+const RegisterLink = styled.div`
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+
+  a {
+    color: #057d7a;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 function Login() {
   const { setAuthState } = useAuth();
   const navigate = useNavigate();
@@ -94,6 +111,8 @@ function Login() {
       // Redirect based on user role
       if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+      } else if (roles.includes("EMPLOYEE")) {
+        navigate("/employee/dashboard", { replace: true });
       } else {
         navigate("/user/dashboard", { replace: true });
       }
@@ -142,6 +161,9 @@ function Login() {
         />
         <LoginButton type="submit">Login</LoginButton>
       </FormWrapper>
+      <RegisterLink>
+        Don&apos;t have an account? <Link to="/register">Register here</Link>
+      </RegisterLink>
     </LoginContainer>
   );
 }

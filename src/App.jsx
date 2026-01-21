@@ -6,8 +6,10 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
+import PatientRegister from "./components/PatientRegister";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
+import EmployeeDashboard from "./components/EmployeeDashboard";
 import Unauthorized from "./components/Unauthorized";
 import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
@@ -27,13 +29,14 @@ function App() {
             {/* Public routes - accessible without authentication */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<PatientRegister />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
 
             {/* Patient routes - require PATIENT role */}
             <Route
               path="/user/dashboard"
               element={
-                <RequireAuth allowedRoles={["PATIENT", "EMPLOYEE"]}>
+                <RequireAuth allowedRoles={["PATIENT", "USER"]}>
                   <UserDashboard />
                 </RequireAuth>
               }
@@ -63,7 +66,17 @@ function App() {
               }
             />
 
-            {/* Employee/Admin routes - require EMPLOYEE or ADMIN role */}
+            {/* Employee routes - require EMPLOYEE role */}
+            <Route
+              path="/employee/dashboard"
+              element={
+                <RequireAuth allowedRoles={["EMPLOYEE"]}>
+                  <EmployeeDashboard />
+                </RequireAuth>
+              }
+            />
+
+            {/* Admin routes - require ADMIN role */}
             <Route
               path="/admin/dashboard"
               element={
