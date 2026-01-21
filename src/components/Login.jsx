@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import api from "../config/api";
+import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -54,7 +54,6 @@ const StyledInput = styled.input`
   background-color: #fafafa;
   border-radius: 5px;
   padding: 5px 0px;
-  color: #000;
 
   &:focus {
     outline: none;
@@ -78,7 +77,15 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/auth/login", credentials);
+      const response = await axios.post(
+        "http://localhost:8080/auth/login",
+        credentials,
+        {
+          // withCredentials: true is required for the server to set HTTP-only cookies
+          // This is essential for cookie-based authentication
+          withCredentials: true,
+        }
+      );
 
       console.log("Login successful:", JSON.stringify(response.data));
 
@@ -98,22 +105,8 @@ function Login() {
         navigate("/user/dashboard", { replace: true });
       }
     } catch (error) {
-      console.error("Login failed:", error);
-      console.error("Error response:", error.response?.data);
-      console.error("Error status:", error.response?.status);
-      
-      // Show more specific error messages
-      if (error.response?.data?.message) {
-        setError(error.response.data.message);
-      } else if (error.response?.status === 401) {
-        setError("Invalid username or password");
-      } else if (error.response?.status === 403) {
-        setError("Access forbidden");
-      } else if (error.request) {
-        setError("Unable to connect to server. Please check if the backend is running.");
-      } else {
-        setError("An error occurred. Please try again.");
-      }
+      console.error("Login failed:", error.response || error);
+      setError("Invalid username or password");
     }
   };
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
-import api from "../config/api";
+import axios from "axios";
 
 // Protected route component that verifies authentication and role-based access
 // Wrap any route that requires authentication with this component
@@ -13,7 +13,11 @@ function RequireAuth({ children, allowedRoles }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get("/auth/check");
+        const response = await axios.get("http://localhost:8080/auth/check", {
+          // withCredentials: true is required for sending cookies with cross-origin requests
+          // This ensures the HTTP-only auth cookie is included in the request
+          withCredentials: true,
+        });
         setAuthState({
           isAuthenticated: true,
           user: response.data.username,
