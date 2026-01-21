@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 // Styling
 
-// Functions
+// Function
 function AvailabilityForm() {
     const generateTimeOptions = () => {
         const options = [];
@@ -61,28 +61,52 @@ function AvailabilityForm() {
         const handleSubmit = async (e) => {
         e.preventDefault();
 
-        
+        if (!formData.date) {
+            setError("Please select a date.");
+            return;
+        }
 
+        if (!isWeekDay(formData.date)) {
+            setError("Please select a weekday (Monday to Friday).");
+            return;
+        }
 
+        const startDateTime = `${formData.date}T${formData.startTime}:00Z`;
+        const endDateTime = `${formData.date}T${endTime}:00Z`;
 
+        await axios.post(
+            "http://localhost:5000/api/availability",
+            {
+                start: startDateTime,
+                end: endDateTime,
+            },
+            {
+                withCredentials: true,
+            }
+        );
 
+        setSuccess("Availability successfully created!");
+    
+        setFormData({
+            date: "",
+            startTime: "09:00"
+        });
 
+        if (onSlotCreated) {
+            onSlotCreated();
+        }
+    } catch (err) {
+        console.error("Failed to create availability slot:", err);
+        const errorMessage = 
+            err.response?.data?.message ||
+            err.response?.data ||
+            "An error occurred while creating the availability slot.";
+        setError(errorMessage);
+    } finally {
+        setLoading(false);
+    }
+};
 
+const endTime = calculateEndTime(formData.startTime);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-// Returned Component
+// Return Component
