@@ -3,7 +3,6 @@ import axios from "axios";
 import styled from "styled-components";
 
 // Styling
-// Styled components for availability form
 const FormContainer = styled.div`
   background: white;
   border-radius: 16px;
