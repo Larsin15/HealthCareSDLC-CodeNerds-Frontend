@@ -122,10 +122,58 @@ function AvailabilityForm({ onSlotCreated }) {
     // Return Component
     return (
         <FormContainer>
-        <FormTitle>
-        </FormTitle>
-        </FormContainer>
-    );
+      <FormTitle>Add Availability Slot</FormTitle>
+
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {success && <SuccessMessage>{success}</SuccessMessage>}
+
+      <form onSubmit={handleSubmit}>
+        <FormGrid>
+          <FormGroup>
+            <Label htmlFor="date">Date</Label>
+            <Input
+              id="date"
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              min={getMinDate()}
+              required
+            />
+            <HelpText>Weekdays only (Mon-Fri)</HelpText>
+          </FormGroup>
+
+          <FormGroup>
+            <Label htmlFor="startTime">Start Time</Label>
+            <Select
+              id="startTime"
+              name="startTime"
+              value={formData.startTime}
+              onChange={handleChange}
+              required
+            >
+              {timeOptions.map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </Select>
+            <HelpText>Working hours: 08:00-16:00</HelpText>
+          </FormGroup>
+
+          <FormGroup>
+            <Label>End Time</Label>
+            <Input type="text" value={endTime} disabled />
+            <HelpText>Duration: 30 minutes</HelpText>
+          </FormGroup>
+        </FormGrid>
+
+        <SubmitButton type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create Slot"}
+        </SubmitButton>
+      </form>
+    </FormContainer>
+  );
 }
 
 export default AvailabilityForm;
