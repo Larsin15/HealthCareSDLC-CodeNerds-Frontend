@@ -6,6 +6,10 @@ import styled from "styled-components";
 import Logout from "./Logout";
 import AppointmentList from "./AppointmentList";
 import AvailabilityForm from "./AvailabilityForm";
+import { Calendar } from 'react-big-calendar';
+import { localizer, calendarDefaults, slotToCalendarEvent, getEventStyle } from '../config/calendarConfig';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import '../styles/calendar.css';
 
 // Styled components for employee dashboard layout
 const DashboardContainer = styled.div`
@@ -254,15 +258,8 @@ function EmployeeDashboard() {
     const [appointmentTab, setAppointmentTab] = useState("upcoming");
     const [slotTab, setSlotTab] = useState("available");
     const [deletingSlotId, setDeletingSlotId] = useState(null);
+    const [selectedSlot, setSelectedSlot] = useState(null);
     
-    // New slot form state
-    const [ newSlot, setNewSlot ] = useState({
-        date: "",
-        startTime: "",
-        endTime: ""
-    });
-
-    // Fetch employee data
     useEffect(() => {
         fetchAppointments();
         fetchSlots();
