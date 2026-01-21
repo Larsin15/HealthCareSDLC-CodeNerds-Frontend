@@ -1,3 +1,5 @@
+import { useState } from "react";
+import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import Logo from "../assets/health_care_logo.svg";
 import styled from "styled-components";
@@ -129,7 +131,7 @@ const SuccessMessage = styled.div`
   margin-bottom: 15px;
 `;
 
-const ErrorMessage = styled.div`¨
+const ErrorMessage = styled.div`
   background-color: #fee2e2;
   color: #dc2626;
   padding: 15px 20px;
@@ -167,7 +169,6 @@ function AdminDashboard() {
     specialization: "",
     department: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -232,7 +233,7 @@ function AdminDashboard() {
 
   return (
     <DashboardContainer>
-      <header>
+      <Header>
         <LogoSection>
           <LogoContainer src={Logo} alt="Health Care Logo" />
           <WelcomeText>
@@ -241,7 +242,7 @@ function AdminDashboard() {
           </WelcomeText>
         </LogoSection>
         <Logout />
-      </header>
+      </Header>
 
       <Section>
         <SectionTitle>Create New Employee Account</SectionTitle>
@@ -314,7 +315,7 @@ function AdminDashboard() {
 
           <FormRow>
             <FormGroup>
-              <StyledLabel htmlFor="firstName">First Name *</StyledLabel>
+              <StyledLabel htmlFor="firstName">First Name</StyledLabel>
               <StyledInput
                 id="firstName"
                 name="firstName"
@@ -327,7 +328,7 @@ function AdminDashboard() {
             </FormGroup>
 
             <FormGroup>
-              <StyledLabel htmlFor="lastName"> Last Name *</StyledLabel>
+              <StyledLabel htmlFor="lastName">Last Name</StyledLabel>
               <StyledInput
                 id="lastName"
                 name="lastName"
@@ -342,9 +343,7 @@ function AdminDashboard() {
 
           <FormRow>
             <FormGroup>
-              <StyledLabel htmlFor="specialization">
-                Specialization *
-              </StyledLabel>
+              <StyledLabel htmlFor="specialization">Specialization</StyledLabel>
               <StyledInput
                 id="specialization"
                 name="specialization"
@@ -356,7 +355,7 @@ function AdminDashboard() {
             </FormGroup>
 
             <FormGroup>
-              <StyledLabel htmlFor="department">Department *</StyledLabel>
+              <StyledLabel htmlFor="department">Department</StyledLabel>
               <StyledInput
                 id="department"
                 name="department"
@@ -369,7 +368,7 @@ function AdminDashboard() {
           </FormRow>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? "Creating Employee..." : "Creat Employee Account"}
+            {loading ? "Creating Employee..." : "Create Employee Account"}
           </SubmitButton>
         </FormWrapper>
       </Section>

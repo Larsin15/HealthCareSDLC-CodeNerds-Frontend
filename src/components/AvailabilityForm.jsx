@@ -229,9 +229,8 @@ function AvailabilityForm({ onSlotCreated }) {
 
   const endTime = calculateEndTime(formData.startTime);
 
-    // Return Component
-    return (
-        <FormContainer>
+  return (
+    <FormContainer>
       <FormTitle>Add Availability Slot</FormTitle>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}

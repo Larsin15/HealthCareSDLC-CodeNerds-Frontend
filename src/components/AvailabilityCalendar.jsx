@@ -242,6 +242,22 @@ function AvailabilityCalendar() {
     return specs.filter(Boolean).sort();
   };
 
+  // Filter slots based on current filters
+  const filteredSlots = slots.filter((slot) => {
+    // Date filter
+    if (filters.date) {
+      const slotDate = new Date(slot.startTime).toISOString().split("T")[0];
+      if (slotDate !== filters.date) return false;
+    }
+
+    // Specialization filter
+    if (filters.specialization) {
+      if (slot.employeeSpecialization !== filters.specialization) return false;
+    }
+
+    return true;
+  });
+
   // Transform filtered slots to calendar events
   const events = filteredSlots.map(slot => ({
     ...slotToCalendarEvent(slot),
@@ -272,22 +288,6 @@ function AvailabilityCalendar() {
     const isSelected = selectedSlot?.id === event.resource.id;
     return getEventStyle(event, isSelected);
   };
-
-  // Filter slots based on current filters
-  const filteredSlots = slots.filter((slot) => {
-    // Date filter
-    if (filters.date) {
-      const slotDate = new Date(slot.startTime).toISOString().split("T")[0];
-      if (slotDate !== filters.date) return false;
-    }
-
-    // Specialization filter
-    if (filters.specialization) {
-      if (slot.employeeSpecialization !== filters.specialization) return false;
-    }
-
-    return true;
-  });
 
   // Format date/time for display in selected slot info
   const formatDateTime = (dateString) => {
